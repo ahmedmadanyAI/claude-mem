@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الذكاء الاصطناعي للأعمال | كورس احترافي لقادة المستقبل</title>
+  <meta name="description" content="كورس عملي شامل يعلّمك كيف توظّف الذكاء الاصطناعي لمضاعفة إنتاجية فريقك، أتمتة عملياتك، واتخاذ قرارات أذكى — مصمم لرواد الأعمال والمدراء والمحترفين." />
+  <meta property="og:title" content="الذكاء الاصطناعي للأعمال | كورس احترافي" />
+  <meta property="og:description" content="حوّل عملك بالذكاء الاصطناعي خلال 6 أسابيع. تطبيق عملي، أدوات جاهزة، وشهادة معتمدة." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0e27;
+      --bg-2: #0f1535;
+      --surface: #141b3d;
+      --surface-2: #1a2249;
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #eef1ff;
+      --muted: #9aa3c7;
+      --primary: #6c5ce7;
+      --primary-2: #a29bfe;
+      --accent: #00d2ff;
+      --accent-2: #00ffa3;
+      --gold: #ffd166;
+      --radius: 18px;
+      --shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.6);
+      --grad: linear-gradient(135deg, #6c5ce7 0%, #00d2ff 100%);
+      --grad-2: linear-gradient(135deg, #00ffa3 0%, #00d2ff 100%);
+      --maxw: 1180px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Tajawal', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    .container { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
+    section { position: relative; }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 700; letter-spacing: 0.5px;
+      color: var(--accent);
+      background: rgba(0, 210, 255, 0.08);
+      border: 1px solid rgba(0, 210, 255, 0.2);
+      padding: 7px 16px; border-radius: 100px; margin-bottom: 18px;
+    }
+    h1, h2, h3 { line-height: 1.25; font-weight: 800; }
+    .section-title { font-size: clamp(28px, 4vw, 44px); margin-bottom: 14px; }
+    .section-sub { color: var(--muted); font-size: 18px; max-width: 620px; }
+    .center { text-align: center; }
+    .center .section-sub { margin-inline: auto; }
+    .gradient-text {
+      background: var(--grad); -webkit-background-clip: text;
+      background-clip: text; color: transparent;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      font-family: inherit; font-size: 17px; font-weight: 700; cursor: pointer;
+      padding: 15px 30px; border-radius: 100px; border: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--grad); color: #fff;
+      box-shadow: 0 12px 30px -10px rgba(108, 92, 231, 0.7);
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 18px 40px -10px rgba(108, 92, 231, 0.9); }
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.04); color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { background: rgba(255, 255, 255, 0.09); transform: translateY(-3px); }
+    .btn-block { width: 100%; }
+
+    /* Nav */
+    header.nav {
+      position: fixed; top: 0; inset-inline: 0; z-index: 100;
+      transition: background 0.3s ease, border-color 0.3s ease, padding 0.3s ease;
+      padding: 18px 0; border-bottom: 1px solid transparent;
+    }
+    header.nav.scrolled {
+      background: rgba(10, 14, 39, 0.85); backdrop-filter: blur(14px);
+      border-bottom-color: var(--border); padding: 12px 0;
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .logo { display: flex; align-items: center; gap: 11px; font-weight: 900; font-size: 21px; }
+    .logo-mark {
+      width: 38px; height: 38px; border-radius: 11px; background: var(--grad);
+      display: grid; place-items: center; font-size: 20px; box-shadow: 0 8px 20px -6px rgba(108,92,231,0.8);
+    }
+    .nav-links { display: flex; align-items: center; gap: 30px; }
+    .nav-links a { color: var(--muted); font-weight: 500; font-size: 16px; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { display: flex; align-items: center; gap: 12px; }
+    .menu-toggle { display: none; background: none; border: none; color: var(--text); font-size: 28px; cursor: pointer; }
+
+    /* Hero */
+    .hero { padding: 170px 0 90px; overflow: hidden; }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: -1;
+      background:
+        radial-gradient(700px 500px at 85% -5%, rgba(108, 92, 231, 0.30), transparent 60%),
+        radial-gradient(600px 500px at 10% 10%, rgba(0, 210, 255, 0.18), transparent 60%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+    }
+    .hero-grid {
+      display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 50px; align-items: center;
+    }
+    .hero h1 { font-size: clamp(34px, 5.2vw, 60px); font-weight: 900; margin-bottom: 22px; }
+    .hero p.lead { font-size: 20px; color: var(--muted); margin-bottom: 30px; max-width: 540px; }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 30px; }
+    .hero-trust { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; color: var(--muted); font-size: 15px; }
+    .avatars { display: flex; }
+    .avatars span {
+      width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--bg);
+      margin-inline-start: -12px; background: var(--grad); display: grid; place-items: center;
+      font-weight: 700; font-size: 14px; color: #fff;
+    }
+    .avatars span:first-child { margin-inline-start: 0; }
+    .stars { color: var(--gold); letter-spacing: 2px; }
+
+    /* Hero card */
+    .hero-card {
+      background: linear-gradient(160deg, var(--surface), var(--surface-2));
+      border: 1px solid var(--border); border-radius: 24px; padding: 28px;
+      box-shadow: var(--shadow); position: relative;
+    }
+    .hero-card::before {
+      content: ""; position: absolute; inset: -1px; border-radius: 24px; padding: 1px;
+      background: var(--grad); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0.5; pointer-events: none;
+    }
+    .hc-badge {
+      display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700;
+      background: var(--grad-2); color: #04210f; padding: 5px 14px; border-radius: 100px; margin-bottom: 18px;
+    }
+    .hc-title { font-size: 22px; margin-bottom: 4px; }
+    .hc-price { display: flex; align-items: baseline; gap: 10px; margin: 14px 0 18px; }
+    .hc-price .now { font-size: 40px; font-weight: 900; }
+    .hc-price .was { color: var(--muted); text-decoration: line-through; font-size: 20px; }
+    .hc-list { list-style: none; display: grid; gap: 11px; margin: 18px 0 22px; }
+    .hc-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 15px; color: #d4d9f5; }
+    .hc-list .tick {
+      flex: 0 0 auto; width: 22px; height: 22px; border-radius: 50%;
+      background: rgba(0, 255, 163, 0.14); color: var(--accent-2); display: grid; place-items: center;
+      font-size: 13px; font-weight: 900; margin-top: 3px;
+    }
+    .hc-note { text-align: center; font-size: 13px; color: var(--muted); margin-top: 12px; }
+
+    /* Marquee / logos */
+    .logos { padding: 40px 0; border-block: 1px solid var(--border); background: var(--bg-2); }
+    .logos p { text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 20px; letter-spacing: 1px; }
+    .logos-row { display: flex; justify-content: center; align-items: center; gap: 46px; flex-wrap: wrap; opacity: 0.7; }
+    .logos-row span { font-weight: 800; font-size: 20px; color: #c2c8e8; }
+
+    /* Stats */
+    .stats { padding: 70px 0; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+    .stat {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 28px 22px; text-align: center;
+    }
+    .stat .num { font-size: 42px; font-weight: 900; }
+    .stat .lbl { color: var(--muted); font-size: 15px; margin-top: 4px; }
+
+    /* Generic section spacing */
+    .pad { padding: 90px 0; }
+    .pad-sm { padding: 70px 0; }
+
+    /* Features */
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 50px; }
+    .feature {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 30px 26px; transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+    .feature:hover { transform: translateY(-6px); border-color: rgba(108, 92, 231, 0.5); }
+    .feature .ico {
+      width: 54px; height: 54px; border-radius: 14px; display: grid; place-items: center;
+      font-size: 26px; margin-bottom: 18px; background: rgba(108, 92, 231, 0.14); border: 1px solid rgba(108,92,231,0.3);
+    }
+    .feature h3 { font-size: 20px; margin-bottom: 8px; }
+    .feature p { color: var(--muted); font-size: 15.5px; }
+
+    /* Audience */
+    .audience-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 46px; }
+    .aud-card {
+      background: linear-gradient(160deg, var(--surface), var(--bg-2));
+      border: 1px solid var(--border); border-radius: var(--radius); padding: 26px 22px;
+    }
+    .aud-card .emoji { font-size: 32px; margin-bottom: 12px; }
+    .aud-card h4 { font-size: 17px; margin-bottom: 6px; }
+    .aud-card p { color: var(--muted); font-size: 14.5px; }
+
+    /* Curriculum */
+    .curriculum { background: var(--bg-2); }
+    .modules { margin-top: 46px; display: grid; gap: 14px; max-width: 880px; margin-inline: auto; }
+    .module {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
+    }
+    .module-head {
+      display: flex; align-items: center; gap: 16px; padding: 22px 24px; cursor: pointer; user-select: none;
+    }
+    .module-num {
+      flex: 0 0 auto; width: 46px; height: 46px; border-radius: 12px; background: var(--grad);
+      display: grid; place-items: center; font-weight: 900; font-size: 18px; color: #fff;
+    }
+    .module-head h3 { font-size: 18.5px; flex: 1; }
+    .module-head .week { color: var(--muted); font-size: 14px; }
+    .module-head .chev { transition: transform 0.3s ease; color: var(--muted); font-size: 20px; }
+    .module.open .chev { transform: rotate(180deg); }
+    .module-body {
+      max-height: 0; overflow: hidden; transition: max-height 0.35s ease;
+    }
+    .module-body-inner { padding: 0 24px 24px 86px; color: var(--muted); }
+    .module-body-inner ul { list-style: none; display: grid; gap: 9px; }
+    .module-body-inner li { display: flex; align-items: flex-start; gap: 9px; font-size: 15px; }
+    .module-body-inner li::before { content: "▸"; color: var(--accent); margin-top: 1px; }
+
+    /* Instructor */
+    .instructor-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 50px; align-items: center; }
+    .instructor-photo {
+      aspect-ratio: 1; border-radius: 24px; background: var(--grad);
+      display: grid; place-items: center; font-size: 130px; box-shadow: var(--shadow); position: relative; overflow: hidden;
+    }
+    .instructor-photo .ring { position: absolute; inset: 0; background: radial-gradient(circle at 70% 20%, rgba(255,255,255,0.25), transparent 50%); }
+    .instructor h2 { margin-bottom: 6px; }
+    .instructor .role { color: var(--accent); font-weight: 700; margin-bottom: 16px; }
+    .instructor p { color: var(--muted); font-size: 16.5px; margin-bottom: 14px; }
+    .inst-stats { display: flex; gap: 30px; margin-top: 22px; flex-wrap: wrap; }
+    .inst-stats div .n { font-size: 26px; font-weight: 900; }
+    .inst-stats div .l { color: var(--muted); font-size: 14px; }
+
+    /* Testimonials */
+    .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 46px; }
+    .testi {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 26px;
+      display: flex; flex-direction: column;
+    }
+    .testi .stars { margin-bottom: 14px; }
+    .testi p { font-size: 15.5px; color: #d4d9f5; flex: 1; }
+    .testi .who { display: flex; align-items: center; gap: 12px; margin-top: 20px; }
+    .testi .who .av { width: 44px; height: 44px; border-radius: 50%; background: var(--grad); display: grid; place-items: center; font-weight: 700; }
+    .testi .who .nm { font-weight: 700; font-size: 15px; }
+    .testi .who .tt { color: var(--muted); font-size: 13px; }
+
+    /* Pricing */
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 50px; align-items: stretch; }
+    .price-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 22px; padding: 34px 28px;
+      display: flex; flex-direction: column; position: relative;
+    }
+    .price-card.featured {
+      border-color: transparent; background: linear-gradient(160deg, var(--surface-2), var(--surface));
+      transform: scale(1.04); box-shadow: var(--shadow);
+    }
+    .price-card.featured::before {
+      content: ""; position: absolute; inset: -1px; border-radius: 22px; padding: 1.5px;
+      background: var(--grad); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
+    }
+    .price-tag {
+      position: absolute; top: -14px; inset-inline-start: 50%; transform: translateX(50%);
+      background: var(--grad); color: #fff; font-size: 13px; font-weight: 700; padding: 6px 18px; border-radius: 100px;
+    }
+    .price-card h3 { font-size: 21px; margin-bottom: 6px; }
+    .price-card .desc { color: var(--muted); font-size: 14.5px; min-height: 44px; }
+    .price-card .amount { display: flex; align-items: baseline; gap: 8px; margin: 18px 0; }
+    .price-card .amount .v { font-size: 44px; font-weight: 900; }
+    .price-card .amount .c { color: var(--muted); font-size: 16px; }
+    .price-card ul { list-style: none; display: grid; gap: 12px; margin: 8px 0 26px; flex: 1; }
+    .price-card li { display: flex; align-items: flex-start; gap: 10px; font-size: 15px; color: #d4d9f5; }
+    .price-card li .tick { color: var(--accent-2); font-weight: 900; flex: 0 0 auto; }
+    .price-card li.off { color: var(--muted); opacity: 0.6; }
+    .price-card li.off .tick { color: var(--muted); }
+
+    /* FAQ */
+    .faq-wrap { max-width: 820px; margin: 46px auto 0; display: grid; gap: 12px; }
+    .faq-item { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    .faq-q { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 20px 22px; cursor: pointer; font-weight: 700; font-size: 17px; }
+    .faq-q .chev { color: var(--muted); transition: transform 0.3s ease; }
+    .faq-item.open .chev { transform: rotate(45deg); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .faq-a p { padding: 0 22px 20px; color: var(--muted); font-size: 15.5px; }
+
+    /* CTA */
+    .cta-final { padding: 100px 0; }
+    .cta-box {
+      background: var(--grad); border-radius: 30px; padding: 60px 40px; text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-box::after {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(500px 300px at 80% 0%, rgba(255,255,255,0.25), transparent 60%);
+    }
+    .cta-box h2 { font-size: clamp(28px, 4vw, 42px); color: #fff; margin-bottom: 14px; position: relative; }
+    .cta-box p { color: rgba(255,255,255,0.9); font-size: 19px; margin-bottom: 30px; position: relative; }
+    .cta-box .btn { background: #fff; color: var(--primary); position: relative; }
+    .cta-box .btn:hover { transform: translateY(-3px); }
+    .cta-countdown { display: inline-flex; gap: 12px; margin-bottom: 28px; position: relative; }
+    .cd-box { background: rgba(0,0,0,0.25); border-radius: 12px; padding: 10px 16px; min-width: 64px; }
+    .cd-box .n { font-size: 28px; font-weight: 900; color: #fff; }
+    .cd-box .l { font-size: 12px; color: rgba(255,255,255,0.8); }
+
+    /* Footer */
+    footer { background: var(--bg-2); border-top: 1px solid var(--border); padding: 60px 0 30px; }
+    .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+    .footer-col h4 { font-size: 16px; margin-bottom: 16px; }
+    .footer-col a { display: block; color: var(--muted); font-size: 15px; margin-bottom: 10px; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--text); }
+    .footer-col p { color: var(--muted); font-size: 15px; }
+    .social { display: flex; gap: 12px; margin-top: 18px; }
+    .social a { width: 40px; height: 40px; border-radius: 10px; background: var(--surface); border: 1px solid var(--border); display: grid; place-items: center; font-size: 18px; margin: 0; }
+    .social a:hover { background: var(--surface-2); }
+    .footer-bottom { border-top: 1px solid var(--border); padding-top: 24px; text-align: center; color: var(--muted); font-size: 14px; }
+
+    /* Reveal animation */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* Responsive */
+    @media (max-width: 980px) {
+      .hero-grid, .instructor-grid { grid-template-columns: 1fr; }
+      .hero-card { max-width: 460px; }
+      .stats-grid, .features-grid, .testi-grid, .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+      .audience-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .price-card.featured { transform: none; }
+    }
+    @media (max-width: 640px) {
+      .nav-links, .nav-cta .btn-ghost { display: none; }
+      .menu-toggle { display: block; }
+      .nav-links.mobile-open {
+        display: flex; flex-direction: column; position: absolute; top: 64px; inset-inline: 14px;
+        background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 18px; gap: 16px;
+      }
+      .stats-grid, .features-grid, .testi-grid, .pricing-grid, .audience-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .module-body-inner { padding-inline-start: 24px; }
+      .hero { padding-top: 130px; }
+      .cta-box { padding: 44px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="#" class="logo">
+        <span class="logo-mark">🧠</span>
+        <span>AI<span class="gradient-text">Pro</span></span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#features">المميزات</a>
+        <a href="#curriculum">المنهج</a>
+        <a href="#instructor">المدرب</a>
+        <a href="#pricing">الأسعار</a>
+        <a href="#faq">الأسئلة</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="#pricing" class="btn btn-ghost">سجّل الدخول</a>
+        <a href="#pricing" class="btn btn-primary">احجز مقعدك</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="القائمة">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="container hero-grid">
+      <div class="hero-text reveal">
+        <span class="eyebrow">🚀 الدفعة الجديدة تبدأ قريبًا — مقاعد محدودة</span>
+        <h1>أتقن <span class="gradient-text">الذكاء الاصطناعي</span> وحوّل أعمالك خلال 6 أسابيع</h1>
+        <p class="lead">كورس عملي مكثّف يعلّمك كيف توظّف أدوات الذكاء الاصطناعي لمضاعفة إنتاجية فريقك، أتمتة العمليات المتكررة، واتخاذ قرارات مبنية على البيانات — بدون خلفية تقنية.</p>
+        <div class="hero-actions">
+          <a href="#pricing" class="btn btn-primary">ابدأ الآن — احجز مقعدك</a>
+          <a href="#curriculum" class="btn btn-ghost">استعرض المنهج ↓</a>
+        </div>
+        <div class="hero-trust">
+          <div class="avatars">
+            <span>أ</span><span>م</span><span>س</span><span>ن</span><span>+</span>
+          </div>
+          <div>
+            <span class="stars">★★★★★</span>
+            <div style="font-size:14px;">انضم إلى أكثر من <strong style="color:var(--text)">٤٢٠٠</strong> متعلم</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card reveal">
+        <span class="hc-badge">⚡ عرض الإطلاق — خصم ٤٠٪</span>
+        <h3 class="hc-title">باقة الكورس الكاملة</h3>
+        <p style="color:var(--muted); font-size:15px;">وصول مدى الحياة + تحديثات مجانية</p>
+        <div class="hc-price">
+          <span class="now gradient-text">٢٩٧٠ ر.س</span>
+          <span class="was">٤٩٥٠ ر.س</span>
+        </div>
+        <ul class="hc-list">
+          <li><span class="tick">✓</span> ٦ وحدات تدريبية + أكثر من ٤٠ درسًا عمليًا</li>
+          <li><span class="tick">✓</span> مكتبة برومبتات جاهزة (٢٠٠+ برومبت)</li>
+          <li><span class="tick">✓</span> جلسات مباشرة أسبوعية للأسئلة والأجوبة</li>
+          <li><span class="tick">✓</span> مجتمع خاص وشبكة علاقات مهنية</li>
+          <li><span class="tick">✓</span> شهادة إتمام معتمدة</li>
+        </ul>
+        <a href="#pricing" class="btn btn-primary btn-block">سجّل الآن</a>
+        <p class="hc-note">🔒 ضمان استرجاع الأموال خلال ١٤ يومًا</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOGOS -->
+  <section class="logos">
+    <div class="container">
+      <p>خرّيجو الكورس يعملون في شركات رائدة</p>
+      <div class="logos-row">
+        <span>◆ نوفا تك</span>
+        <span>✦ بناء</span>
+        <span>● مدارات</span>
+        <span>▲ زِد</span>
+        <span>◈ رؤية</span>
+        <span>✸ تمكين</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat reveal"><div class="num gradient-text">٤٢٠٠+</div><div class="lbl">متعلم حول العالم</div></div>
+        <div class="stat reveal"><div class="num gradient-text">٤.٩/٥</div><div class="lbl">تقييم المتعلمين</div></div>
+        <div class="stat reveal"><div class="num gradient-text">٤٠+</div><div class="lbl">درس عملي تطبيقي</div></div>
+        <div class="stat reveal"><div class="num gradient-text">٩٣٪</div><div class="lbl">طبّقوا ما تعلموه فورًا</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="pad" id="features">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow">لماذا هذا الكورس</span>
+        <h2 class="section-title">كل ما تحتاجه لتقود التحول الرقمي</h2>
+        <p class="section-sub">منهج مبني على حالات عملية حقيقية، لا نظريات. تخرج بأدوات ومهارات تطبّقها من اليوم الأول.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature reveal">
+          <div class="ico">⚙️</div>
+          <h3>أتمتة العمليات</h3>
+          <p>تعلّم بناء سير عمل آلي يوفّر ساعات أسبوعيًا، من معالجة البريد إلى توليد التقارير تلقائيًا.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="ico">📊</div>
+          <h3>قرارات بالبيانات</h3>
+          <p>حوّل بياناتك الخام إلى رؤى قابلة للتنفيذ باستخدام أدوات التحليل الذكية وتصوّر البيانات.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="ico">✍️</div>
+          <h3>هندسة البرومبت</h3>
+          <p>أتقن فن كتابة الأوامر التي تنتج مخرجات احترافية دقيقة في التسويق والمبيعات وخدمة العملاء.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="ico">🤖</div>
+          <h3>بناء مساعدين أذكياء</h3>
+          <p>أنشئ روبوتات محادثة ومساعدين مخصصين لعملك دون كتابة سطر برمجي واحد.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="ico">📈</div>
+          <h3>تسويق مدعوم بالذكاء</h3>
+          <p>ضاعف نتائج حملاتك التسويقية: محتوى، استهداف، وتحليل أداء بأدوات الجيل الجديد.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="ico">🛡️</div>
+          <h3>الحوكمة والأخلاقيات</h3>
+          <p>افهم المخاطر، الخصوصية، والاستخدام المسؤول للذكاء الاصطناعي في بيئة الأعمال.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUDIENCE -->
+  <section class="pad-sm">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow">لمن هذا الكورس</span>
+        <h2 class="section-title">مصمم لكل من يريد التقدّم</h2>
+      </div>
+      <div class="audience-grid">
+        <div class="aud-card reveal"><div class="emoji">👔</div><h4>المدراء والقادة</h4><p>قُد فرقك نحو تبنّي الذكاء الاصطناعي واتخاذ قرارات استراتيجية أذكى.</p></div>
+        <div class="aud-card reveal"><div class="emoji">🚀</div><h4>رواد الأعمال</h4><p>أطلق وشغّل مشروعك بموارد أقل وكفاءة أعلى عبر الأتمتة الذكية.</p></div>
+        <div class="aud-card reveal"><div class="emoji">📣</div><h4>المسوّقون والمبيعات</h4><p>أنشئ محتوى وحملات عالية التحويل في جزء من الوقت والتكلفة.</p></div>
+        <div class="aud-card reveal"><div class="emoji">💼</div><h4>المحترفون الطموحون</h4><p>طوّر مهاراتك واجعل نفسك أصلًا لا غنى عنه في سوق العمل الجديد.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CURRICULUM -->
+  <section class="pad curriculum" id="curriculum">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow">المنهج الدراسي</span>
+        <h2 class="section-title">رحلة من ٦ أسابيع نحو الإتقان</h2>
+        <p class="section-sub">منهج متدرّج ينقلك من الأساسيات إلى التطبيق المتقدّم خطوة بخطوة.</p>
+      </div>
+      <div class="modules" id="modules">
+        <div class="module open">
+          <div class="module-head">
+            <div class="module-num">١</div>
+            <h3>أسس الذكاء الاصطناعي للأعمال</h3>
+            <span class="week">الأسبوع ١</span>
+            <span class="chev">⌄</span>
+          </div>
+          <div class="module-body">
+            <div class="module-body-inner">
+              <ul>
+                <li>ما هو الذكاء الاصطناعي التوليدي وكيف يغيّر قواعد اللعبة</li>
+                <li>خريطة الأدوات الأساسية واختيار الأنسب لعملك</li>
+                <li>إعداد بيئة عملك الذكية من الصفر</li>
+                <li>حالات استخدام حقيقية عبر مختلف القطاعات</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="module">
+          <div class="module-head">
+            <div class="module-num">٢</div>
+            <h3>إتقان هندسة البرومبت</h3>
+            <span class="week">الأسبوع ٢</span>
+            <span class="chev">⌄</span>
+          </div>
+          <div class="module-body">
+            <div class="module-body-inner">
+              <ul>
+                <li>أطر كتابة البرومبت الاحترافية وأنماطها</li>
+                <li>بناء مكتبة برومبتات خاصة بفريقك</li>
+                <li>تقنيات متقدمة: السلاسل، الأدوار، والسياق</li>
+                <li>ورشة عملية: حلّ مشكلة حقيقية من عملك</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="module">
+          <div class="module-head">
+            <div class="module-num">٣</div>
+            <h3>أتمتة سير العمل</h3>
+            <span class="week">الأسبوع ٣</span>
+            <span class="chev">⌄</span>
+          </div>
+          <div class="module-body">
+            <div class="module-body-inner">
+              <ul>
+                <li>ربط الأدوات معًا لبناء أنظمة آلية</li>
+                <li>أتمتة المهام المتكررة في التسويق والإدارة</li>
+                <li>تكامل الذكاء الاصطناعي مع أدواتك الحالية</li>
+                <li>مشروع: بناء سير عمل آلي كامل</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="module">
+          <div class="module-head">
+            <div class="module-num">٤</div>
+            <h3>التسويق والمبيعات بالذكاء الاصطناعي</h3>
+            <span class="week">الأسبوع ٤</span>
+            <span class="chev">⌄</span>
+          </div>
+          <div class="module-body">
+            <div class="module-body-inner">
+              <ul>
+                <li>توليد محتوى تسويقي عالي الجودة على نطاق واسع</li>
+                <li>تحليل العملاء والتنبؤ بسلوكهم</li>
+                <li>أتمتة قمع المبيعات ومتابعة العملاء</li>
+                <li>قياس العائد على الاستثمار</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="module">
+          <div class="module-head">
+            <div class="module-num">٥</div>
+            <h3>تحليل البيانات واتخاذ القرار</h3>
+            <span class="week">الأسبوع ٥</span>
+            <span class="chev">⌄</span>
+          </div>
+          <div class="module-body">
+            <div class="module-body-inner">
+              <ul>
+                <li>تحويل البيانات إلى رؤى بلغة طبيعية</li>
+                <li>بناء لوحات معلومات تفاعلية</li>
+                <li>التنبؤ بالاتجاهات ودعم القرارات الاستراتيجية</li>
+                <li>دراسة حالة: قرار أعمال حقيقي</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="module">
+          <div class="module-head">
+            <div class="module-num">٦</div>
+            <h3>الاستراتيجية والتطبيق المؤسسي</h3>
+            <span class="week">الأسبوع ٦</span>
+            <span class="chev">⌄</span>
+          </div>
+          <div class="module-body">
+            <div class="module-body-inner">
+              <ul>
+                <li>بناء خارطة طريق لتبنّي الذكاء الاصطناعي في مؤسستك</li>
+                <li>إدارة التغيير وتدريب الفرق</li>
+                <li>الحوكمة، الأمان، والاستخدام المسؤول</li>
+                <li>المشروع الختامي وعرضه + الشهادة</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTRUCTOR -->
+  <section class="pad" id="instructor">
+    <div class="container instructor-grid">
+      <div class="instructor-photo reveal">
+        <div class="ring"></div>
+        👨‍🏫
+      </div>
+      <div class="instructor reveal">
+        <span class="eyebrow">مدرّب الكورس</span>
+        <h2>د. خالد الراشد</h2>
+        <div class="role">خبير تحول رقمي وذكاء اصطناعي · ١٥+ سنة خبرة</div>
+        <p>استشاري ساعد أكثر من ٨٠ شركة على تبنّي الذكاء الاصطناعي في عملياتها. محاضر دولي ومتحدث في أبرز المؤتمرات التقنية، ومؤسس عدة مبادرات لتمكين الكوادر الرقمية في المنطقة العربية.</p>
+        <p>يجمع بين العمق التقني والرؤية الإدارية، ليقدّم لك المعرفة بأسلوب عملي مبسّط بعيدًا عن التعقيد.</p>
+        <div class="inst-stats">
+          <div><div class="n gradient-text">٨٠+</div><div class="l">شركة استشارية</div></div>
+          <div><div class="n gradient-text">١٢٠+</div><div class="l">ورشة وتدريب</div></div>
+          <div><div class="n gradient-text">٤٢٠٠+</div><div class="l">متدرّب</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="pad-sm">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow">قصص نجاح</span>
+        <h2 class="section-title">ماذا يقول خرّيجونا</h2>
+      </div>
+      <div class="testi-grid">
+        <div class="testi reveal">
+          <div class="stars">★★★★★</div>
+          <p>«وفّرت لفريقي أكثر من ١٥ ساعة أسبوعيًا بعد تطبيق ما تعلمته في وحدة الأتمتة. الكورس غيّر طريقة عملنا بالكامل.»</p>
+          <div class="who"><div class="av">س</div><div><div class="nm">سارة المطيري</div><div class="tt">مديرة عمليات</div></div></div>
+        </div>
+        <div class="testi reveal">
+          <div class="stars">★★★★★</div>
+          <p>«كنت أظن أن الذكاء الاصطناعي معقّد ويحتاج خلفية تقنية. الكورس أثبت عكس ذلك تمامًا — محتوى عملي ومباشر.»</p>
+          <div class="who"><div class="av">م</div><div><div class="nm">محمد العتيبي</div><div class="tt">رائد أعمال</div></div></div>
+        </div>
+        <div class="testi reveal">
+          <div class="stars">★★★★★</div>
+          <p>«ضاعفت إنتاج المحتوى التسويقي ٣ مرات بنفس الفريق. مكتبة البرومبتات وحدها تستحق ثمن الكورس.»</p>
+          <div class="who"><div class="av">ن</div><div><div class="nm">نورة القحطاني</div><div class="tt">مديرة تسويق</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pad curriculum" id="pricing">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow">الباقات والأسعار</span>
+        <h2 class="section-title">اختر الباقة المناسبة لك</h2>
+        <p class="section-sub">جميع الباقات تشمل ضمان استرجاع الأموال خلال ١٤ يومًا.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="price-card reveal">
+          <h3>الأساسية</h3>
+          <p class="desc">للبدء الذاتي بالمحتوى الكامل.</p>
+          <div class="amount"><span class="v">١٤٧٠</span><span class="c">ر.س</span></div>
+          <ul>
+            <li><span class="tick">✓</span> الوصول لجميع الوحدات الست</li>
+            <li><span class="tick">✓</span> أكثر من ٤٠ درسًا مسجلًا</li>
+            <li><span class="tick">✓</span> مكتبة البرومبتات الأساسية</li>
+            <li class="off"><span class="tick">✕</span> الجلسات المباشرة</li>
+            <li class="off"><span class="tick">✕</span> الشهادة المعتمدة</li>
+          </ul>
+          <a href="#" class="btn btn-ghost btn-block">اختر الأساسية</a>
+        </div>
+        <div class="price-card featured reveal">
+          <span class="price-tag">الأكثر شيوعًا</span>
+          <h3>الاحترافية</h3>
+          <p class="desc">التجربة الكاملة مع الدعم المباشر.</p>
+          <div class="amount"><span class="v gradient-text">٢٩٧٠</span><span class="c">ر.س</span></div>
+          <ul>
+            <li><span class="tick">✓</span> كل ما في الباقة الأساسية</li>
+            <li><span class="tick">✓</span> جلسات مباشرة أسبوعية</li>
+            <li><span class="tick">✓</span> مكتبة برومبتات كاملة (٢٠٠+)</li>
+            <li><span class="tick">✓</span> المجتمع الخاص للخرّيجين</li>
+            <li><span class="tick">✓</span> شهادة إتمام معتمدة</li>
+          </ul>
+          <a href="#" class="btn btn-primary btn-block">اختر الاحترافية</a>
+        </div>
+        <div class="price-card reveal">
+          <h3>الشركات</h3>
+          <p class="desc">حلول تدريب مخصصة للفرق.</p>
+          <div class="amount"><span class="v">تواصل</span></div>
+          <ul>
+            <li><span class="tick">✓</span> كل ما في الباقة الاحترافية</li>
+            <li><span class="tick">✓</span> تدريب مخصص لفريقك</li>
+            <li><span class="tick">✓</span> ورش عمل حضورية / عن بُعد</li>
+            <li><span class="tick">✓</span> مدير حساب مخصص</li>
+            <li><span class="tick">✓</span> تقارير أداء للفريق</li>
+          </ul>
+          <a href="#" class="btn btn-ghost btn-block">تواصل معنا</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="pad" id="faq">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow">الأسئلة الشائعة</span>
+        <h2 class="section-title">كل ما تريد معرفته</h2>
+      </div>
+      <div class="faq-wrap" id="faq">
+        <div class="faq-item">
+          <div class="faq-q">هل أحتاج خلفية تقنية للالتحاق بالكورس؟ <span class="chev">＋</span></div>
+          <div class="faq-a"><p>لا على الإطلاق. الكورس مصمم للمحترفين وأصحاب الأعمال بدون أي خبرة برمجية. نبدأ من الأساسيات ونتدرّج خطوة بخطوة.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">كم من الوقت أحتاج أسبوعيًا؟ <span class="chev">＋</span></div>
+          <div class="faq-a"><p>من ٣ إلى ٥ ساعات أسبوعيًا تكفي تمامًا. المحتوى مرن ويمكنك مشاهدته في الوقت المناسب لك، مع وصول مدى الحياة.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">هل أحصل على شهادة معتمدة؟ <span class="chev">＋</span></div>
+          <div class="faq-a"><p>نعم، تحصل على شهادة إتمام معتمدة بعد إنهاء الوحدات والمشروع الختامي (متاحة في الباقتين الاحترافية والشركات).</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">ماذا لو لم يعجبني الكورس؟ <span class="chev">＋</span></div>
+          <div class="faq-a"><p>نقدّم ضمان استرجاع كامل للمبلغ خلال ١٤ يومًا من بدء الكورس، دون أي أسئلة. ثقتنا بالمحتوى كاملة.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">هل الأدوات المستخدمة في الكورس مدفوعة؟ <span class="chev">＋</span></div>
+          <div class="faq-a"><p>معظم الأدوات تقدّم خططًا مجانية تكفي للتعلّم والتطبيق. ونرشدك أيضًا لأفضل الخيارات حسب ميزانيتك واحتياج عملك.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="cta-final">
+    <div class="container">
+      <div class="cta-box">
+        <h2>مقعدك في انتظارك — لا تفوّت عرض الإطلاق</h2>
+        <p>انضم اليوم إلى مجتمع يقود مستقبل الأعمال بالذكاء الاصطناعي.</p>
+        <div class="cta-countdown" id="countdown">
+          <div class="cd-box"><div class="n" id="cd-days">٠٢</div><div class="l">يوم</div></div>
+          <div class="cd-box"><div class="n" id="cd-hours">٠٠</div><div class="l">ساعة</div></div>
+          <div class="cd-box"><div class="n" id="cd-mins">٠٠</div><div class="l">دقيقة</div></div>
+          <div class="cd-box"><div class="n" id="cd-secs">٠٠</div><div class="l">ثانية</div></div>
+        </div>
+        <div><a href="#pricing" class="btn">احجز مقعدك الآن →</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="#" class="logo" style="margin-bottom:14px;">
+            <span class="logo-mark">🧠</span>
+            <span>AI<span class="gradient-text">Pro</span></span>
+          </a>
+          <p>نُمكّن المحترفين وأصحاب الأعمال من إتقان الذكاء الاصطناعي وتحويله إلى ميزة تنافسية حقيقية.</p>
+          <div class="social">
+            <a href="#" aria-label="X">𝕏</a>
+            <a href="#" aria-label="LinkedIn">in</a>
+            <a href="#" aria-label="YouTube">▶</a>
+            <a href="#" aria-label="Instagram">◎</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>الكورس</h4>
+          <a href="#features">المميزات</a>
+          <a href="#curriculum">المنهج</a>
+          <a href="#pricing">الأسعار</a>
+          <a href="#faq">الأسئلة الشائعة</a>
+        </div>
+        <div class="footer-col">
+          <h4>الشركة</h4>
+          <a href="#">من نحن</a>
+          <a href="#">المدوّنة</a>
+          <a href="#">شركاء النجاح</a>
+          <a href="#">تواصل معنا</a>
+        </div>
+        <div class="footer-col">
+          <h4>قانوني</h4>
+          <a href="#">سياسة الخصوصية</a>
+          <a href="#">الشروط والأحكام</a>
+          <a href="#">سياسة الاسترجاع</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © <span id="year"></span> AIPro · جميع الحقوق محفوظة. صُمّم بشغف لتمكين رواد الأعمال.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear().toLocaleString('ar-EG');
+
+    // Nav scroll state
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 30);
+    });
+
+    // Mobile menu
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    menuToggle.addEventListener('click', () => navLinks.classList.toggle('mobile-open'));
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('mobile-open')));
+
+    // Accordion: curriculum modules
+    document.querySelectorAll('#modules .module-head').forEach(head => {
+      head.addEventListener('click', () => {
+        const m = head.parentElement;
+        const body = m.querySelector('.module-body');
+        const isOpen = m.classList.contains('open');
+        document.querySelectorAll('#modules .module').forEach(x => {
+          x.classList.remove('open');
+          x.querySelector('.module-body').style.maxHeight = null;
+        });
+        if (!isOpen) {
+          m.classList.add('open');
+          body.style.maxHeight = body.scrollHeight + 'px';
+        }
+      });
+    });
+    // open first by default
+    const firstBody = document.querySelector('#modules .module.open .module-body');
+    if (firstBody) firstBody.style.maxHeight = firstBody.scrollHeight + 'px';
+
+    // FAQ accordion
+    document.querySelectorAll('#faq .faq-q').forEach(q => {
+      q.addEventListener('click', () => {
+        const item = q.parentElement;
+        const ans = item.querySelector('.faq-a');
+        const open = item.classList.contains('open');
+        item.classList.toggle('open');
+        ans.style.maxHeight = open ? null : ans.scrollHeight + 'px';
+      });
+    });
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Countdown (48h rolling) with Arabic-Indic digits
+    const toAr = n => String(n).padStart(2, '0').replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+    let target = localStorage.getItem('aipro_deadline');
+    if (!target) { target = Date.now() + 2 * 24 * 60 * 60 * 1000; localStorage.setItem('aipro_deadline', target); }
+    target = Number(target);
+    function tick() {
+      let diff = Math.max(0, target - Date.now());
+      const d = Math.floor(diff / 86400000); diff -= d * 86400000;
+      const h = Math.floor(diff / 3600000); diff -= h * 3600000;
+      const m = Math.floor(diff / 60000); diff -= m * 60000;
+      const s = Math.floor(diff / 1000);
+      document.getElementById('cd-days').textContent = toAr(d);
+      document.getElementById('cd-hours').textContent = toAr(h);
+      document.getElementById('cd-mins').textContent = toAr(m);
+      document.getElementById('cd-secs').textContent = toAr(s);
+    }
+    tick(); setInterval(tick, 1000);
+  </script>
+</body>
+</html>
