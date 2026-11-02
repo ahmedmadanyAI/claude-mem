@@ -1,4 +1,4 @@
-// Network adapter for the self-hosted Sabaq page.
+// Network adapter for the self-hosted Sibaq page.
 // The game page talks to claude.ai's runtime through `window.claude.use(name)`.
 // Off claude.ai there is no such runtime, so this file provides the one
 // capability the game needs for live races, `room`, backed by the Worker's
@@ -10,7 +10,7 @@
   const NAME = /^[a-z0-9][a-z0-9_.-]{0,47}$/;
 
   function hostKey(name) {
-    const k = 'sabaq-hostkey-' + name;
+    const k = 'sibaq-hostkey-' + name;
     let v = null;
     try { v = sessionStorage.getItem(k); } catch {}
     if (!v) {

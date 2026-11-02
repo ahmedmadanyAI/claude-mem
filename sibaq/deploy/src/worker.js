@@ -1,10 +1,15 @@
-// Sabaq on Cloudflare: serves the game page and runs one live room per game PIN.
+// Sibaq on Cloudflare: one site with two parts.
 //
-//   GET  /                 -> static page (public/)
-//   GET  /api/health       -> {"ok":true}
-//   GET  /api/room/<name>  -> WebSocket into that room's Durable Object
+//   /                          the quiz race (static page in public/)
+//   /activities/               session activities: participant phone page
+//   /activities/screen         session activities: room screen
+//   /activities/admin          session activities: trainer controls (PIN)
 //
-// Room protocol (JSON text frames)
+//   GET  /api/health           -> {"ok":true}
+//   GET  /api/room/<name>      -> WebSocket into that race room's Durable Object
+//   *    /activities/api/*     -> activities API on D1 (see activities.js)
+//
+// Race room protocol (JSON text frames)
 //   client -> server  {t:"presence", p:{...}}          set my presence (<= 4 KB)
 //                     {t:"emit", topic:"state", data, key}   host broadcast (<= 4 KB)
 //                     {t:"ping"}
@@ -18,17 +23,29 @@
 // claims the room with a random key; other keys are refused for 6 hours.
 
 import { DurableObject } from 'cloudflare:workers';
+import { activitiesApi } from './activities.js';
 
 const ROOM_NAME = /^[a-z0-9][a-z0-9_.-]{0,47}$/;
 const MAX_BYTES = 4096;
 const HOST_TTL = 6 * 3600e3;
 const RATE_PER_SEC = 40;
 
+// Clean URLs -> files in public/. Everything else is served as a file as-is.
+const PAGES = {
+  '/': '/index.html',
+  '/activities/': '/activities/index.html',
+  '/activities/screen': '/activities/screen.html',
+  '/activities/admin': '/activities/admin.html',
+};
+// Short links, so /screen or /admin typed in the address bar still land.
+const SHORT = { '/activities': '/activities/', '/screen': '/activities/screen', '/admin': '/activities/admin', '/join': '/activities/' };
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    if (url.pathname === '/api/health') return Response.json({ ok: true });
-    const m = url.pathname.match(/^\/api\/room\/([^/]+)$/);
+    const p = url.pathname;
+    if (p === '/api/health') return Response.json({ ok: true });
+    const m = p.match(/^\/api\/room\/([^/]+)$/);
     if (m) {
       const name = decodeURIComponent(m[1]);
       if (!ROOM_NAME.test(name)) return new Response('Bad room name', { status: 400 });
@@ -36,8 +53,11 @@ export default {
       const stub = env.ROOMS.get(env.ROOMS.idFromName(name));
       return stub.fetch(request);
     }
-    if (url.pathname.startsWith('/api/')) return new Response('Not found', { status: 404 });
-    return env.ASSETS.fetch(request);
+    if (p.startsWith('/activities/api/')) return activitiesApi(p.slice('/activities/api/'.length), request, env, url);
+    if (p.startsWith('/api/')) return new Response('Not found', { status: 404 });
+    if (SHORT[p]) return Response.redirect(url.origin + SHORT[p] + url.search, 301);
+    const file = PAGES[p] || p;
+    return env.ASSETS.fetch(new Request(new URL(file, url.origin), request));
   }
 };
 

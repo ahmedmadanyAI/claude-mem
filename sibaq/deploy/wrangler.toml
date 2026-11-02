@@ -1,0 +1,38 @@
+# Sibaq on Cloudflare Workers: the quiz race at / and session activities at /activities/.
+# Build first (node build.mjs), then deploy (npx wrangler deploy).
+name = "sibaq"
+main = "src/worker.js"
+compatibility_date = "2026-10-01"
+
+# The subdomain the site is served on. Cloudflare creates the DNS record
+# automatically because ahmedmadany.com is on Cloudflare. Change it here.
+routes = [
+  { pattern = "sibaq.ahmedmadany.com", custom_domain = true }
+]
+
+# The Worker routes every request itself (clean URLs and the two APIs).
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = true
+html_handling = "none"
+
+# Live race rooms: one Durable Object per game PIN.
+[[durable_objects.bindings]]
+name = "ROOMS"
+class_name = "Room"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Room"]
+
+# Session activities: the existing vla-activities D1 database, so players,
+# answers and the trainer's position carry over.
+[[d1_databases]]
+binding = "DB"
+database_name = "vla-activities"
+database_id = "48e40282-409e-41e4-b240-b5168866eaf2"
+
+# The trainer PIN is a secret, not a var:
+#   npx wrangler secret put ADMIN_PIN
+# For local runs put ADMIN_PIN=... in .dev.vars (git-ignored).

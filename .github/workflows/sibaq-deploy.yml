@@ -1,15 +1,15 @@
-name: Deploy Sabaq to Cloudflare
+name: Deploy Sibaq to Cloudflare
 
 on:
   push:
     branches: [main, claude/busy-babbage-874q6f]
     paths:
-      - 'sabaq/**'
-      - '.github/workflows/sabaq-deploy.yml'
+      - 'sibaq/**'
+      - '.github/workflows/sibaq-deploy.yml'
   workflow_dispatch:
 
 concurrency:
-  group: sabaq-deploy
+  group: sibaq-deploy
   cancel-in-progress: false
 
 jobs:
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: sabaq/deploy
+        working-directory: sibaq/deploy
     steps:
       - uses: actions/checkout@v4
 
@@ -47,6 +47,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          workingDirectory: sabaq/deploy
+          workingDirectory: sibaq/deploy
           wranglerVersion: '4.151.0'
           command: deploy

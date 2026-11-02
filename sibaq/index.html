@@ -1,4 +1,4 @@
-<title>Sabaq</title>
+<title>Sibaq</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,7 +26,7 @@
   --good:#3EDC8B;
   --bad:#FF6262;
   --f-display:"Unbounded","Arial Black",system-ui,sans-serif;
-  --f-body:"Figtree","IBM Plex Sans Arabic",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-body:"Figtree","Thmanyah","IBM Plex Sans Arabic",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"Martian Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
   --radius:16px;
 }
@@ -34,7 +34,7 @@
 html,body{height:100%}
 body{background:var(--asphalt);color:var(--chalk);font-family:var(--f-body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
 #app{min-height:100%;display:flex;flex-direction:column}
-:lang(ar),[lang="ar"]{font-family:"IBM Plex Sans Arabic",var(--f-body)}
+:lang(ar),[lang="ar"]{font-family:"Thmanyah","IBM Plex Sans Arabic",var(--f-body)}
 h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.1;margin:0;text-wrap:balance;letter-spacing:-.01em}
 p{margin:0}
 button,input,select,textarea{font:inherit;color:inherit}
@@ -399,7 +399,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 
 /* ---------- constants ---------- */
 const SHARE_URL = 'https://claude.ai/artifact/Nw1orcKwBYfzJbWfDzBSn5';  // the published link; players scan it with #join-PIN
-const ROOM_PREFIX = 'sabaq-';
+const ROOM_PREFIX = 'sibaq-';
 const AV = ['🦊','🐯','🐼','🐸','🦁','🐙','🦄','🐢','🦅','🐬','🐝','🐫'];
 const REACTS = ['🔥','👏','😂','😮','💀','🏁'];
 const LIVERY = ['var(--a0)','var(--a1)','var(--a2)','var(--a3)','var(--signal)','var(--chalk)'];
@@ -473,8 +473,8 @@ const sess = {
   set(k, v) { try { v == null ? sessionStorage.removeItem(k) : sessionStorage.setItem(k, JSON.stringify(v)); } catch {} }
 };
 function tabId() {
-  let id = sess.get('sabaq-tab');
-  if (!validPid(id)) { id = uid(10); sess.set('sabaq-tab', id); }
+  let id = sess.get('sibaq-tab');
+  if (!validPid(id)) { id = uid(10); sess.set('sibaq-tab', id); }
   return id;
 }
 
@@ -503,7 +503,7 @@ function errMsg(e) {
 
 /* ---------- sound ---------- */
 const Sound = {
-  ctx: null, on: local.get('sabaq-sound', true), loopT: 0, step: 0,
+  ctx: null, on: local.get('sibaq-sound', true), loopT: 0, step: 0,
   ensure() {
     if (!this.ctx) { try { this.ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch { this.ctx = null; } }
     if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume().catch(() => {});
@@ -546,7 +546,7 @@ const Sound = {
     }, kind === 'lobby' ? 260 : 200);
   },
   stopLoop() { clearInterval(this.loopT); this.loopT = 0; },
-  toggle() { this.on = !this.on; local.set('sabaq-sound', this.on); if (!this.on) this.stopLoop(); else this.ensure(); return this.on; }
+  toggle() { this.on = !this.on; local.set('sibaq-sound', this.on); if (!this.on) this.stopLoop(); else this.ensure(); return this.on; }
 };
 const soundIcon = () => Sound.on
   ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></svg>'
@@ -619,8 +619,8 @@ function normQuiz(raw) {
 BUILTIN.forEach((b, i) => { BUILTIN[i] = Object.assign(normQuiz(b), {id: b.id, src: 'builtin'}); });
 
 const LIB = { saved: [], local: [], loading: true, note: '' };
-LIB.local = (local.get('sabaq-local', []) || []).map(q => Object.assign(normQuiz(q), {id: q.id, src: 'local'})).filter(q => q.id);
-function saveLocalLib() { local.set('sabaq-local', LIB.local.map(q => ({id: q.id, title: q.title, questions: q.questions, updated: q.updated}))); }
+LIB.local = (local.get('sibaq-local', []) || []).map(q => Object.assign(normQuiz(q), {id: q.id, src: 'local'})).filter(q => q.id);
+function saveLocalLib() { local.set('sibaq-local', LIB.local.map(q => ({id: q.id, title: q.title, questions: q.questions, updated: q.updated}))); }
 const allQuizzes = () => [...LIB.saved, ...LIB.local, ...BUILTIN];
 const findQuiz = id => allQuizzes().find(q => q.id === id);
 
@@ -698,7 +698,7 @@ function vHome(msg) {
   mount(`
   <div class="wrap">
     <header class="masthead">
-      <div class="brand"><span class="flag" aria-hidden="true"></span><span class="word">SABAQ</span><span class="ar" lang="ar">سباق</span></div>
+      <div class="brand"><span class="flag" aria-hidden="true"></span><span class="word">SIBAQ</span><span class="ar" lang="ar">سباق</span></div>
       <span class="live-status" id="liveStatus">Connecting…</span>
     </header>
     <section class="hero">
@@ -755,7 +755,7 @@ function paintLiveStatus() {
 function paintLibrary() {
   const g = $('#libGrid'); if (!g || view !== 'home') return;
   const note = $('#libNote'); if (note) note.textContent = LIB.note;
-  const best = local.get('sabaq-best', {}) || {};
+  const best = local.get('sibaq-best', {}) || {};
   const card = q => {
     const src = { builtin: 'Built-in', saved: 'Shared library', local: 'On this device' }[q.src] || '';
     const types = q.questions.reduce((m, x) => (m[x.type] = (m[x.type] || 0) + 1, m), {});
@@ -797,7 +797,7 @@ async function joinRoom(pin) {
    ===================================================================== */
 let H = null;
 
-function hostSess() { sess.set('sabaq-sess', H ? { role: 'host', pin: H.pin, quiz: H.quiz, deadline: H.deadline, game: H.game } : null); }
+function hostSess() { sess.set('sibaq-sess', H ? { role: 'host', pin: H.pin, quiz: H.quiz, deadline: H.deadline, game: H.game } : null); }
 
 async function hostStart(quiz) {
   Sound.ensure();
@@ -899,7 +899,7 @@ function emitState() {
 
 function stageBar(extra = '') {
   return `<header class="stage-bar">
-    <div class="brand"><span class="flag" aria-hidden="true"></span><span class="word">SABAQ</span></div>
+    <div class="brand"><span class="flag" aria-hidden="true"></span><span class="word">SIBAQ</span></div>
     <span class="pill">PIN <span class="num">${H.pin.slice(0, 3)} ${H.pin.slice(3)}</span></span>
     ${extra}
     <span class="spacer"></span>
@@ -925,7 +925,7 @@ function vHostLobby() {
     <div class="lobby-main">
       <div class="pin-block">
         <span class="eyebrow">Join on your phone</span>
-        <p class="where">Open <b>Sabaq</b>, tap Join and enter</p>
+        <p class="where">Open <b>Sibaq</b>, tap Join and enter</p>
         <div class="pin-big num" aria-label="Game PIN ${H.pin.split('').join(' ')}">${H.pin.slice(0, 3)} ${H.pin.slice(3)}</div>
         ${link ? `<div class="qr" id="qr" aria-label="QR code for the join link"></div>
         <div class="share-row"><span class="share-url" id="shareUrl">${esc(link)}</span><button class="btn btn-quiet sm" data-act="h-copy">Copy link</button></div>` : ''}
@@ -1169,7 +1169,7 @@ async function hostResume(sv) {
 let P = null;
 let PAD = null; // current answer pad context
 
-function playerSess() { sess.set('sabaq-sess', P ? { role: 'player', pin: P.pin, pid: P.pid, name: P.name, av: P.av, answered: P.answered, ddUsed: P.ddUsed, re: P.re } : null); }
+function playerSess() { sess.set('sibaq-sess', P ? { role: 'player', pin: P.pin, pid: P.pid, name: P.name, av: P.av, answered: P.answered, ddUsed: P.ddUsed, re: P.re } : null); }
 
 async function startJoin(pin) {
   Sound.ensure();
@@ -1189,7 +1189,7 @@ async function startJoin(pin) {
 }
 
 function vJoinName(pin, info) {
-  const saved = local.get('sabaq-me', {}) || {};
+  const saved = local.get('sibaq-me', {}) || {};
   let av = Number.isInteger(saved.av) ? saved.av : Math.floor(Math.random() * AV.length);
   mount(`<div class="join-shell">
     <button class="btn btn-ghost sm" data-act="home" style="align-self:flex-start">← Back</button>
@@ -1209,7 +1209,7 @@ function vJoinName(pin, info) {
     e.preventDefault();
     const name = str(nick.value, 20);
     if (!name) { $('#nameHint').textContent = 'Add a nickname so the host can see you.'; $('#nameHint').className = 'hint bad'; return; }
-    local.set('sabaq-me', { name, av });
+    local.set('sibaq-me', { name, av });
     playerJoin(pin, name, av);
   });
 }
@@ -1450,9 +1450,9 @@ function soloAnswer(c, ms) {
 ACT['solo-next'] = () => { if (!SOLO) return; if (SOLO.i < SOLO.quiz.questions.length - 1) { SOLO.i++; soloQ(); } else soloEnd(); };
 ACT['solo-quit'] = () => { if (SOLO) clearTimeout(SOLO.timer); SOLO = null; vHome(); };
 function soloEnd() {
-  const best = local.get('sabaq-best', {}) || {};
+  const best = local.get('sibaq-best', {}) || {};
   const prev = best[SOLO.quiz.id] || 0, isBest = SOLO.score > prev;
-  if (isBest && SOLO.quiz.id) { best[SOLO.quiz.id] = SOLO.score; local.set('sabaq-best', best); }
+  if (isBest && SOLO.quiz.id) { best[SOLO.quiz.id] = SOLO.score; local.set('sibaq-best', best); }
   const right = SOLO.log.filter(l => l.ok).length;
   mount(`<div class="wrap" style="max-width:720px">
     <div class="solo-end">
@@ -1696,12 +1696,12 @@ window.addEventListener('hashchange', handleHash);
 
 try {
   window.claude && window.claude.hot && typeof window.claude.hot.snapshot === 'function' &&
-    window.claude.hot.snapshot(() => ({ sess: sess.get('sabaq-sess'), builder: view === 'builder' ? B : null }));
+    window.claude.hot.snapshot(() => ({ sess: sess.get('sibaq-sess'), builder: view === 'builder' ? B : null }));
 } catch {}
 
 async function start(data) {
   data = data || {};
-  const sv = data.sess || sess.get('sabaq-sess');
+  const sv = data.sess || sess.get('sibaq-sess');
   if (sv && (sv.role === 'host' || sv.role === 'player')) {
     mount(`<div class="pad-screen"><div class="status-card neutral"><div class="spinner"></div><h2>Rejoining your race…</h2><p>PIN ${esc(String(sv.pin || ''))}</p><button class="btn btn-ghost" data-act="forget">Start over instead</button></div></div>`, 'resume');
     await capsP;
@@ -1709,14 +1709,14 @@ async function start(data) {
     let ok = false;
     if (sv.role === 'host') ok = await hostResume(sv).catch(() => false);
     else if (sv.role === 'player' && ROOM && validPid(sv.pid)) { await playerJoin(String(sv.pin), str(sv.name, 20) || 'Racer', clamp(Number(sv.av) || 0, 0, AV.length - 1), sv); ok = true; }
-    if (!ok) { sess.set('sabaq-sess', null); vHome(); }
+    if (!ok) { sess.set('sibaq-sess', null); vHome(); }
     return;
   }
   if (data.builder) { vBuilder(data.builder); return; }
   vHome();
   handleHash();
 }
-ACT['forget'] = () => { sess.set('sabaq-sess', null); H = null; P = null; vHome(); };
+ACT['forget'] = () => { sess.set('sibaq-sess', null); H = null; P = null; vHome(); };
 
 try {
   if (window.claude && window.claude.hot && typeof window.claude.hot.ready === 'function') window.claude.hot.ready(start);
