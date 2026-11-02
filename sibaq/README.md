@@ -3,7 +3,7 @@
 One site for a live training room, in two parts:
 
 - **The quiz race** (`/`): the host puts a quiz on a big screen. Players join from their phones with a 6-digit PIN (or by scanning the QR code), answer against the clock, and watch the standings play out as a race after every question.
-- **Session activities** (`/activities/`): participants join once with a number, name and photo, then follow the trainer through quizzes, polls, scales, word clouds, "odd moment" facts, a number draw and star-of-the-day voting. The trainer drives it from `/activities/admin`; the room screen is `/activities/screen`.
+- **Session activities** (`/activities/`): participants join once with a number, name and one of 99 characters (each can be picked by two people at most), then follow the trainer through quizzes, polls, scales, word clouds, "odd moment" facts, a number draw and star-of-the-day voting. The trainer drives it from `/activities/admin`; the room screen is `/activities/screen`.
 
 A **race** activity joins the two: the trainer starts a quiz race, sends its PIN from the control screen, and every phone gets an «ادخل السباق» button that opens the race with the participant's name already filled in.
 

@@ -1,9 +1,8 @@
 // Session activities API for Sibaq (/activities/api/*), backed by D1 (binding DB).
 //
 //   GET  state?me=<token>   current activity, players, answer counts, my answer
-//   POST join               {num, dn, fn, g, av, photo?, token?} -> {token, num}
+//   POST join               {num, dn, fn, g, av (character 1-99, two players each), token?} -> {token, num}
 //   POST answer             {token, val}
-//   GET  photo/<num>        the player's photo
 //   POST scores             {keys:{actKey: correctVal}} -> quiz leaderboard
 //   POST admin              {pin, op, ...}  trainer controls; pin = secret ADMIN_PIN
 //
@@ -51,7 +50,7 @@ async function api(path, req, env, url) {
   if (path === 'state') {
     const s = await kv(env), tok = url.searchParams.get('me') || '-';
     const [pl, cn, mi] = await DB.batch([
-      DB.prepare('SELECT num, dn, g, av, CASE WHEN length(photo) > 0 THEN 1 ELSE 0 END AS ph, t FROM players ORDER BY num'),
+      DB.prepare('SELECT num, dn, g, av, t FROM players ORDER BY num'),
       DB.prepare('SELECT val, COUNT(*) AS c FROM answers WHERE act = ?1 GROUP BY val').bind(s.key),
       DB.prepare('SELECT a.val FROM answers a JOIN players p ON p.num = a.num WHERE a.act = ?1 AND p.token = ?2').bind(s.key, tok),
     ]);
@@ -65,12 +64,13 @@ async function api(path, req, env, url) {
   if (path === 'join') {
     const num = parseInt(body.num, 10);
     const dn = String(body.dn || '').trim().slice(0, 30), fn = String(body.fn || '').trim().slice(0, 80);
-    const g = body.g === 'f' ? 'f' : 'm', av = Math.min(6, Math.max(1, parseInt(body.av, 10) || 1));
-    const photo = typeof body.photo === 'string' && /^data:image\/(jpeg|png|webp);base64,/.test(body.photo) && body.photo.length < 400000 ? body.photo : '';
-    if (!(num >= 1 && num <= 99) || !dn) return bad('invalid');
+    const g = body.g === 'f' ? 'f' : 'm', av = parseInt(body.av, 10), photo = '';
+    if (!(num >= 1 && num <= 99) || !dn || !(av >= 1 && av <= 99)) return bad('invalid');
     const oldTok = typeof body.token === 'string' && body.token.length > 10 ? body.token : '';
     const ex = await DB.prepare('SELECT token FROM players WHERE num = ?1').bind(num).first();
     if (ex && ex.token !== oldTok) return bad('taken', 409);
+    const used = await DB.prepare('SELECT COUNT(*) AS c FROM players WHERE av = ?1 AND token <> ?2').bind(av, oldTok || '-').first();
+    if (used && used.c >= 2) return bad('avfull', 409);
     const token = oldTok || crypto.randomUUID(), t = Date.now();
     const stmts = [];
     if (oldTok) stmts.push(DB.prepare('DELETE FROM players WHERE token = ?1 AND num <> ?2').bind(token, num));
@@ -93,14 +93,6 @@ async function api(path, req, env, url) {
     await DB.prepare(sql).bind(s.key, p.num, val, Date.now()).run();
     const r = await DB.prepare('SELECT val FROM answers WHERE act = ?1 AND num = ?2').bind(s.key, p.num).first();
     return json({ ok: true, mine: r ? r.val : null });
-  }
-
-  if (path.startsWith('photo/')) {
-    const r = await DB.prepare('SELECT photo FROM players WHERE num = ?1').bind(parseInt(path.slice(6), 10)).first();
-    const m = r && /^data:(image\/[a-z]+);base64,(.+)$/.exec(r.photo || '');
-    if (!m) return new Response('', { status: 404 });
-    const bin = Uint8Array.from(atob(m[2]), c => c.charCodeAt(0));
-    return new Response(bin, { headers: { 'content-type': m[1], 'cache-control': 'public, max-age=600' } });
   }
 
   if (path === 'scores') {

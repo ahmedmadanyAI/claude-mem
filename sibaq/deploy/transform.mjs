@@ -58,6 +58,6 @@ export const FAVICON =
   '</svg>';
 
 export const HEADERS =
-  '/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  Permissions-Policy: camera=(self), microphone=(), geolocation=()\n\n' +
+  '/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  Permissions-Policy: camera=(), microphone=(), geolocation=()\n\n' +
   ['/index.html', '/net.js', '/activities/*.html', '/activities/*.js', '/activities/*.css'].map(p => p + '\n  Cache-Control: no-cache\n').join('') +
-  '/vendor/*\n  Cache-Control: public, max-age=86400\n';
+  '/vendor/*\n  Cache-Control: public, max-age=86400\n/activities/av/*\n  Cache-Control: public, max-age=604800\n';

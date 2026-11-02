@@ -19,7 +19,11 @@
       });
     });
   }
-  function avSrc(p) { return p && p.ph ? 'api/photo/' + p.num + '?v=' + p.t : 'avatars/' + (p && p.g === 'f' ? 'f' : 'm') + ((p && p.av) || 1) + '.svg'; }
+  var AVF = [1, 3, 5, 7, 9], AVM = [2, 4, 6, 8];
+  for (var q = 10; q <= 54; q++) AVF.push(q);
+  for (q = 55; q <= 99; q++) AVM.push(q);
+  function avUrl(id) { id = +id; if (!(id >= 1 && id <= 99)) id = 1; return 'av/a' + ('00' + id).slice(-3) + '.png'; }
+  function avSrc(p) { return avUrl(p && p.av ? p.av : (p && p.g === 'f' ? 1 : 2)); }
   function joinUrl() { return new URL('./', location.href).href; }
   var qrCache = {};
   function qrSrc(u, s) {
@@ -63,27 +67,9 @@
     var me = null;
     try { me = JSON.parse(localStorage.getItem(K_ME) || 'null'); } catch (e) {}
     var st = null, sig = '', busy = false;
-    var d = { step: 1, dn: '', fn: '', g: null, num: null, photo: null, av: null, err: '', own: null };
-    var fileIn = document.createElement('input');
-    fileIn.type = 'file'; fileIn.accept = 'image/*'; fileIn.setAttribute('capture', 'user'); fileIn.style.display = 'none';
-    document.body.appendChild(fileIn);
-    fileIn.addEventListener('change', function () {
-      var f = fileIn.files && fileIn.files[0]; if (!f) return;
-      shrink(f).then(function (u) { d.photo = u; d.av = null; d.err = ''; force(); }, function () { d.err = 'تعذّر قراءة الصورة. جرّب صورة أخرى.'; force(); });
-      fileIn.value = '';
-    });
-    function shrink(file) {
-      return new Promise(function (res, rej) {
-        var img = new Image(), url = URL.createObjectURL(file);
-        img.onload = function () {
-          var S = 256, c = document.createElement('canvas'); c.width = c.height = S;
-          var x = c.getContext('2d'), m = Math.min(img.width, img.height);
-          x.drawImage(img, (img.width - m) / 2, (img.height - m) / 2, m, m, 0, 0, S, S);
-          URL.revokeObjectURL(url); res(c.toDataURL('image/jpeg', 0.82));
-        };
-        img.onerror = rej; img.src = url;
-      });
-    }
+    var d = { step: 1, dn: '', fn: '', g: null, num: null, av: null, err: '', own: null, ownAv: null };
+    function useOf(id) { var n = 0; st.players.forEach(function (p) { if (+p.av === id && p.num !== d.own) n++; }); return n; }
+    function pickFree(g) { var L = (g === 'f' ? AVF : AVM).filter(function (id) { return useOf(id) < 2; }); return L.length ? L[Math.floor(Math.random() * L.length)] : (g === 'f' ? 1 : 2); }
     function force() { sig = ''; render(); }
     async function poll() {
       st = await api('state' + (me ? '?me=' + encodeURIComponent(me.token) : ''));
@@ -99,7 +85,7 @@
     }
     function head(t, sub) { return brand() + '<div><div class="ruq k">' + t + '</div>' + (sub ? '<div class="mut">' + sub + '</div>' : '') + '</div>'; }
     function dots() { return '<div class="dots">' + [1, 2, 3].map(function (k) { return '<span class="' + (k <= d.step ? 'on' : '') + '"></span>'; }).join('') + '</div>'; }
-    function joinSig() { return ['J', d.step, d.g, d.num, d.photo ? d.photo.length : '', d.av, d.err, busy, d.step === 2 ? st.players.map(function (p) { return p.num; }).join(',') : ''].join('|'); }
+    function joinSig() { return ['J', d.step, d.g, d.num, d.av, d.err, busy, d.step >= 2 ? st.players.map(function (p) { return p.num + ':' + p.av; }).join(',') : ''].join('|'); }
     function joinHTML() {
       var err = d.err ? '<div class="note bad">' + esc(d.err) + '</div>' : '';
       if (d.step === 1) {
@@ -115,12 +101,17 @@
         for (var n = 1; n <= MAXN; n++) g += '<button class="n' + (d.num === n ? ' on' : '') + '" data-a="num" data-v="' + n + '"' + (taken[n] ? ' disabled' : '') + '>' + n + '</button>';
         return head('اختر رقمك', 'الرقم الذي ستحمله طوال الأيام الثلاثة') + dots() + '<div class="grid">' + g + '</div><div class="note blue">احفظ رقمك. الأرقام الباهتة اختارها زملاؤك.</div>' + err + '<button class="btn ghost" data-a="back">رجوع</button>';
       }
-      var av = d.photo || ('avatars/' + d.g + (d.av || 1) + '.svg'), gal = '';
-      for (var k = 1; k <= 6; k++) gal += '<button class="avb' + (!d.photo && d.av === k ? ' on' : '') + '" data-a="av" data-v="' + k + '"><img src="avatars/' + d.g + k + '.svg" alt=""></button>';
-      return head('صورتك', 'رقم ' + d.num + ' · ' + esc(d.dn)) + dots() +
-        '<div style="display:flex;justify-content:center"><img class="av" src="' + av + '" style="width:150px;height:150px" alt=""></div>' +
-        '<div class="note or">نحتاج صورة لوجهك لتظهر على شاشة القاعة عند سحب رقمك، وفي التصويت لنجم اليوم.</div>' +
-        '<button class="btn orange" data-a="photo">التقط صورة أو اخترها</button><div class="mut" style="text-align:center">أو اختر شخصية كرتونية</div><div class="gal">' + gal + '</div>' + err +
+      if (d.av && useOf(d.av) >= 2) d.av = null;
+      if (!d.av) d.av = pickFree(d.g);
+      var L = d.g === 'f' ? AVF : AVM, gal = '', free = 0;
+      L.forEach(function (id) {
+        var u = useOf(id), full = u >= 2; if (!full) free++;
+        gal += '<button class="avb' + (d.av === id ? ' on' : '') + '" data-a="av" data-v="' + id + '"' + (full ? ' disabled' : '') + '><img class="av" src="' + avUrl(id) + '" alt="" loading="lazy">' + (u ? '<span class="use' + (full ? ' full' : '') + '">' + u + '/2</span>' : '') + '</button>';
+      });
+      return head('اختر شخصيتك', 'رقم ' + d.num + ' · ' + esc(d.dn)) + dots() +
+        '<div class="top" style="justify-content:center"><img class="av" src="' + avUrl(d.av) + '" style="width:140px;height:140px" alt=""></div>' +
+        '<div class="note blue">تظهر شخصيتك على شاشة القاعة، وفي الترتيب، وفي التصويت لنجم اليوم. يمكن أن يختار الشخصية نفسها اثنان فقط. متاح الآن: ' + free + '</div>' +
+        '<div class="galbox"><div class="gal">' + gal + '</div></div>' + err +
         '<div class="seg"><button class="btn ghost" data-a="back">رجوع</button><button class="btn" data-a="join"' + (busy ? ' disabled' : '') + '>' + (busy ? 'لحظة…' : 'ادخل القاعة') + '</button></div>';
     }
     function joinedSig() {
@@ -171,20 +162,20 @@
     app.addEventListener('click', async function (e) {
       var b = e.target.closest('[data-a]'); if (!b || b.disabled) return;
       var a = b.getAttribute('data-a'), v = b.getAttribute('data-v');
-      if (a === 'g') { d.g = v; d.av = null; d.err = ''; return force(); }
+      if (a === 'g') { if (d.g !== v) d.av = null; d.g = v; d.err = ''; return force(); }
       if (a === 'next1') { if (!d.dn.trim() || !d.fn.trim() || !d.g) { d.err = 'أكمل الاسمين واختر الجنس.'; return force(); } d.err = ''; d.step = 2; return force(); }
-      if (a === 'num') { d.num = +v; d.err = ''; d.step = 3; if (!d.photo && !d.av) d.av = 1 + Math.floor(Math.random() * 6); return force(); }
+      if (a === 'num') { d.num = +v; d.err = ''; d.step = 3; return force(); }
       if (a === 'back') { d.step = Math.max(1, d.step - 1); d.err = ''; return force(); }
-      if (a === 'av') { d.av = +v; d.photo = null; return force(); }
-      if (a === 'photo') return fileIn.click();
+      if (a === 'av') { d.av = +v; d.err = ''; return force(); }
       if (a === 'join') {
         busy = true; force();
         try {
-          var r = await api('join', { num: d.num, dn: d.dn.trim(), fn: d.fn.trim(), g: d.g, av: d.av || 1, photo: d.photo || '', token: localStorage.getItem(K_TOK) || '' });
-          me = { token: r.token, num: r.num, dn: d.dn.trim(), fn: d.fn.trim(), g: d.g };
+          var r = await api('join', { num: d.num, dn: d.dn.trim(), fn: d.fn.trim(), g: d.g, av: d.av, token: localStorage.getItem(K_TOK) || '' });
+          me = { token: r.token, num: r.num, dn: d.dn.trim(), fn: d.fn.trim(), g: d.g, av: d.av };
           localStorage.setItem(K_ME, JSON.stringify(me)); localStorage.setItem(K_TOK, r.token);
         } catch (err) {
-          if (err.status === 409) { d.err = 'سبقك زميل إلى الرقم ' + d.num + '. اختر رقماً آخر.'; d.step = 2; } else d.err = 'تعذّر الاتصال. حاول مرة أخرى.';
+          if (err.status === 409 && err.message === 'avfull') { d.err = 'هذه الشخصية اختارها زميلان. اختر شخصية أخرى.'; d.av = null; d.step = 3; }
+          else if (err.status === 409) { d.err = 'سبقك زميل إلى الرقم ' + d.num + '. اختر رقماً آخر.'; d.step = 2; } else d.err = 'تعذّر الاتصال. حاول مرة أخرى.';
         }
         busy = false;
         try { await poll(); } catch (x) {}
@@ -195,7 +186,7 @@
         location.href = raceUrl(v);
         return;
       }
-      if (a === 'edit') { d.step = 1; d.own = me.num; d.num = me.num; d.dn = me.dn || ''; d.fn = me.fn || ''; d.g = me.g; d.err = ''; me = null; return force(); }
+      if (a === 'edit') { var mine = st.players.find(function (p) { return p.num === me.num; }) || {}; d.step = 1; d.own = me.num; d.num = me.num; d.dn = me.dn || ''; d.fn = me.fn || ''; d.g = me.g; d.av = +mine.av || me.av || null; d.err = ''; me = null; return force(); }
       if (a === 'ans' || a === 'word') {
         var val = v;
         if (a === 'word') { var inp = app.querySelector('[data-f="word"]'); val = ((inp && inp.value) || '').replace(/\s+/g, ' ').trim(); if (!val) return; }
