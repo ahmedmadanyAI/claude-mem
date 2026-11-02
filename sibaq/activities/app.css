@@ -1,9 +1,5 @@
 /* Sibaq session activities. Same track as the quiz race: asphalt ground, one
    signal-yellow accent, four livery colours (rose, tangerine, lagoon, cobalt). */
-@font-face{font-family:Thmanyah;src:url(../fonts/thmanyahsans-Regular.woff2) format('woff2');font-weight:400;font-display:swap}
-@font-face{font-family:Thmanyah;src:url(../fonts/thmanyahsans-Medium.woff2) format('woff2');font-weight:500;font-display:swap}
-@font-face{font-family:Thmanyah;src:url(../fonts/thmanyahsans-Bold.woff2) format('woff2');font-weight:700;font-display:swap}
-@font-face{font-family:Thmanyah;src:url(../fonts/thmanyahsans-Black.woff2) format('woff2');font-weight:900;font-display:swap}
 :root{
   color-scheme:dark;
   --asphalt:#12141A;--asphalt-2:#1A1D25;--asphalt-3:#252A35;--rim:#353B4A;
@@ -11,7 +7,7 @@
   --signal:#F7CF3D;--signal-ink:#1E1A08;
   --a0:#FF5A76;--a1:#FFA02E;--a2:#19C9AC;--a3:#6F86FF;
   --good:#3EDC8B;--bad:#FF6262;
-  --f-body:Thmanyah,"IBM Plex Sans Arabic",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans Arabic",system-ui,sans-serif;
   --f-display:"Unbounded","Arial Black",system-ui,sans-serif;
   --checker:conic-gradient(var(--chalk) 25%,var(--asphalt) 0 50%,var(--chalk) 0 75%,var(--asphalt) 0);
 }

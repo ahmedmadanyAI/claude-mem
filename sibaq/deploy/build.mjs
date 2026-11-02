@@ -1,7 +1,6 @@
 // Builds the Sibaq site in ./public:
 //   /             the quiz race (../index.html, the claude.ai artifact page, adapted to run standalone)
 //   /activities/  session activities (../activities/)
-//   /fonts/       Thmanyah Sans, shared by both parts
 //   /vendor/      QRCode.js, served from the site so QR codes need no third-party service
 import fs from 'node:fs';
 import path from 'node:path';
@@ -49,8 +48,7 @@ ${title.trim()}
 <meta property="og:type" content="website">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 ${fonts.join('\n')}
-<style>${[['Regular', 400], ['Medium', 500], ['Bold', 700], ['Black', 900]].map(([n, w]) => `@font-face{font-family:Thmanyah;src:url(/fonts/thmanyahsans-${n}.woff2) format('woff2');font-weight:${w};font-display:swap}`).join('')}
-:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
 .mast-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.mast-right a{text-decoration:none}</style>
 </head>
 <body>
@@ -64,7 +62,6 @@ fs.mkdirSync(out, { recursive: true });
 fs.writeFileSync(path.join(out, 'index.html'), html);
 fs.copyFileSync(path.join(here, 'net.js'), path.join(out, 'net.js'));
 fs.cpSync(path.join(here, '..', 'activities'), path.join(out, 'activities'), { recursive: true });
-fs.cpSync(path.join(here, '..', 'fonts'), path.join(out, 'fonts'), { recursive: true });
 fs.cpSync(path.join(here, '..', 'vendor'), path.join(out, 'vendor'), { recursive: true });
 fs.writeFileSync(path.join(out, 'favicon.svg'),
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#12141A"/>' +
@@ -73,5 +70,5 @@ fs.writeFileSync(path.join(out, 'favicon.svg'),
 fs.writeFileSync(path.join(out, '_headers'),
   '/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  Permissions-Policy: camera=(self), microphone=(), geolocation=()\n\n' +
   ['/index.html', '/net.js', '/activities/*.html', '/activities/*.js', '/activities/*.css'].map(p => p + '\n  Cache-Control: no-cache\n').join('') +
-  '/fonts/*\n  Cache-Control: public, max-age=31536000, immutable\n/vendor/*\n  Cache-Control: public, max-age=86400\n');
+  '/vendor/*\n  Cache-Control: public, max-age=86400\n');
 console.log('Built', path.relative(process.cwd(), out));

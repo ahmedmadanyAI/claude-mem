@@ -50,13 +50,13 @@ The host's tab keeps the answer key; players only see the current question and r
 - **Activities and course name:** edit `activities/acts.js`. Add new activities at the end of the list: answers are stored by position, so inserting one in the middle moves the answers of the ones after it. Types: `join`, `quiz`, `poll`, `scale`, `cloud`, `odd`, `draw`, `star`, `race`.
 - **Before each course:** «إعادة ضبط كاملة» on the control screen clears the previous participants. After it, «تنزيل القائمة للشهادات» downloads a CSV of numbers and full names.
 - **Storage:** the D1 database `vla-activities` (binding `DB`), the same one the original vla-activities Worker uses, so players and answers carry over.
-- **Look:** `activities/app.css` uses the race's tokens (asphalt ground, `--signal` yellow, the four livery colours) and Thmanyah Sans from `fonts/`, which the race page uses for Arabic too.
+- **Look:** `activities/app.css` uses the race's tokens (asphalt ground, `--signal` yellow, the four livery colours) and IBM Plex Sans Arabic, the same Arabic font as the race page.
 
 ## Self-hosting on Cloudflare (sibaq.ahmedmadany.com)
 
 `sibaq/deploy/` builds both parts into one Cloudflare Worker:
 
-- `build.mjs` copies `index.html` into `public/`, points the join link and QR code at the site, loads `net.js`, and adds a link to the activities. It copies `activities/`, `fonts/` and `vendor/` (QRCode.js, so QR codes are drawn in the browser with no third-party service).
+- `build.mjs` copies `index.html` into `public/`, points the join link and QR code at the site, loads `net.js`, and adds a link to the activities. It copies `activities/` and `vendor/` (QRCode.js, so QR codes are drawn in the browser with no third-party service).
 - `net.js` stands in for the claude.ai runtime: it gives the race its live `room` over a WebSocket. Quizzes save on each device, and AI drafting is hidden because it needs claude.ai.
 - `src/worker.js` routes every request: clean page URLs, `/api/room/<name>` (one Durable Object per race PIN, which relays presence and the host's game state; only the tab that started the game can broadcast), and `/activities/api/*`, which `src/activities.js` serves from D1.
 - `wrangler.toml` sets the custom domain `sibaq.ahmedmadany.com`. Cloudflare creates the DNS record itself.
