@@ -33,3 +33,20 @@ The host's tab keeps the answer key; players only see the current question and r
 - **Built-in quizzes:** the `BUILTIN` array in the script.
 - **Racers and reactions:** the `AV` and `REACTS` arrays.
 - **Scoring:** `scoreOne()`.
+
+## Self-hosting on Cloudflare (sabaq.ahmedmadany.com)
+
+`sabaq/deploy/` turns the page into a standalone site on Cloudflare Workers:
+
+- `build.mjs` copies `index.html` into `public/`, points the join link and QR code at the site, and loads `net.js`.
+- `net.js` stands in for the claude.ai runtime: it gives the game its live `room` over a WebSocket. Quizzes save on each device, and AI drafting is hidden because it needs claude.ai.
+- `src/worker.js` serves the page and runs one Durable Object per game PIN that relays presence and the host's game state. Only the tab that started the game can broadcast state into its room.
+- `wrangler.toml` sets the custom domain `sabaq.ahmedmadany.com`. Cloudflare creates the DNS record itself.
+
+Deploy with either option:
+
+**A. Cloudflare dashboard (no tokens).** Workers & Pages → Create → Import a repository → pick this repo and branch. Set the root directory to `sabaq/deploy`, the build command to `node build.mjs`, and the deploy command to `npx wrangler deploy`.
+
+**B. GitHub Actions.** Add the repository secrets `CLOUDFLARE_API_TOKEN` (from the "Edit Cloudflare Workers" token template, with the zone set to ahmedmadany.com) and `CLOUDFLARE_ACCOUNT_ID`. `.github/workflows/sabaq-deploy.yml` deploys on every push that touches `sabaq/`.
+
+Local run: `cd sabaq/deploy && npm install && npm run dev`, then open http://localhost:8787.
